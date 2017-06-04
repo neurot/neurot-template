@@ -1,4 +1,5 @@
 (ns neurot-template.db)
 
 (def default-db
-  {:name "re-frame"})
+  {:name "neurot-template"
+   :key1 "hallo welt"})

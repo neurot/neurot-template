@@ -3,9 +3,15 @@
                  [org.clojure/clojurescript "1.9.562"]
                  [reagent "0.6.2"]
                  [re-frame "0.9.4"]
-                 [re-frisk "0.4.5"]]
+                 [re-frisk "0.4.5"]
+                 [ring/ring-core "1.6.1"]
+                 [ring/ring-jetty-adapter "1.6.1"]
+                 [ring/ring-json "0.4.0"]]
 
-  :plugins [[lein-cljsbuild "1.1.4"]]
+  :plugins [[lein-cljsbuild "1.1.4"]
+            [lein-ring "0.8.10"]]
+
+  :ring {:handler neurot-template.core/app}
 
   :min-lein-version "2.5.3"
 
@@ -14,7 +20,8 @@
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"
                                     "test/js"]
 
-  :figwheel {:css-dirs ["resources/public/css"]}
+  :figwheel {:css-dirs ["resources/public/css"]
+             :ring-handler atii.handler/handler}
 
   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
 
@@ -53,4 +60,6 @@
      :compiler     {:main          neurot-template.runner
                     :output-to     "resources/public/js/compiled/test.js"
                     :output-dir    "resources/public/js/compiled/test/out"
-                    :optimizations :none}}]})
+                    :optimizations :none}}]}
+
+  :main neurot-template.core)
