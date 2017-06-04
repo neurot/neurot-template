@@ -20,7 +20,7 @@
                                     "test/js"]
 
   :figwheel {:css-dirs ["resources/public/css"]
-             :ring-handler atii.handler/app}
+             :ring-handler neurot-template.server/app}
 
   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
 
@@ -62,7 +62,9 @@
                     :output-dir    "resources/public/js/compiled/test/out"
                     :optimizations :none}}]}
 
-  :main neurot-template.core
+  :main neurot-template.server
+
+  :aot [neurot-template.server]
 
   :uberjar-name "neurot-template.jar"
 
