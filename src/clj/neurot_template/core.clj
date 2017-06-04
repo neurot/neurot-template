@@ -1,12 +1,20 @@
 (ns neurot-template.core
   (:require [ring.adapter.jetty :as jetty]
+            [bidi.ring :refer (make-handler)]
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
-            [ring.util.response :refer [response]]
-            [ring.middleware.cors :refer [wrap-cors]]
-            ))
+            [ring.util.response :refer [response resource-response]]
+            [ring.middleware.cors :refer [wrap-cors]]))
 
-(defn handler [request]
-  (response {:foo (str request)}))
+
+(defn index-handler [request]
+  (resource-response "index.html" {:root "public"}))
+
+(defn api-handler [request]
+  (response {:name "api" :version "0.0.1"}))
+
+(def handler
+  (make-handler ["" {"/" index-handler
+                      "/api" api-handler}]))
 
 (def app (-> handler
              (wrap-json-body {:keywords? true :bigdecimals? true})

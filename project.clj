@@ -6,7 +6,8 @@
                  [re-frisk "0.4.5"]
                  [ring/ring-core "1.6.1"]
                  [ring/ring-jetty-adapter "1.6.1"]
-                 [ring/ring-json "0.4.0"]]
+                 [ring/ring-json "0.4.0"]
+                 [bidi "2.1.1"]]
 
   :plugins [[lein-cljsbuild "1.1.4"]
             [lein-ring "0.8.10"]]
