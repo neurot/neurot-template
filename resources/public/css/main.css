@@ -1,0 +1,20 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Source Sans Pro', sans-serif;}
+
+p {
+    text-align: justify;
+    hyphens: auto; /* silbentrennung - land="de" ist relevant! */
+}
+
+/* p + p { */
+/*     text-indent: 1em; */
+/* } */
+
+a {font-family: 'Source Sans Pro', sans-serif;}
+
+.sixsix {
+    width: 33em;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}

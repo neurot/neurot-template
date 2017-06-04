@@ -1,9 +1,9 @@
 (defproject neurot-template "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.229"]
-                 [reagent "0.6.0"]
-                 [re-frame "0.9.2"]
-                 [re-frisk "0.3.2"]]
+                 [org.clojure/clojurescript "1.9.562"]
+                 [reagent "0.6.2"]
+                 [re-frame "0.9.4"]
+                 [re-frisk "0.4.5"]]
 
   :plugins [[lein-cljsbuild "1.1.4"]]
 
@@ -20,13 +20,12 @@
 
   :profiles
   {:dev
-   {:dependencies [[binaryage/devtools "0.8.2"]
-                   [figwheel-sidecar "0.5.9"]
+   {:dependencies [[binaryage/devtools "0.9.4"]
+                   [figwheel-sidecar "0.5.10"]
                    [com.cemerick/piggieback "0.2.1"]]
 
-    :plugins      [[lein-figwheel "0.5.9"]
-                   [lein-doo "0.1.7"]]
-    }}
+    :plugins [[lein-figwheel "0.5.9"]
+              [lein-doo "0.1.7"]]}}
 
   :cljsbuild
   {:builds
@@ -39,8 +38,7 @@
                     :asset-path           "js/compiled/out"
                     :source-map-timestamp true
                     :preloads             [devtools.preload]
-                    :external-config      {:devtools/config {:features-to-install :all}}
-                    }}
+                    :external-config      {:devtools/config {:features-to-install :all}}}}
 
     {:id           "min"
      :source-paths ["src/cljs"]
@@ -55,7 +53,4 @@
      :compiler     {:main          neurot-template.runner
                     :output-to     "resources/public/js/compiled/test.js"
                     :output-dir    "resources/public/js/compiled/test/out"
-                    :optimizations :none}}
-    ]}
-
-  )
+                    :optimizations :none}}]})
