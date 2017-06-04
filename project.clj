@@ -4,15 +4,13 @@
                  [reagent "0.6.2"]
                  [re-frame "0.9.4"]
                  [re-frisk "0.4.5"]
+                 [yogthos/config "0.8"]
                  [ring/ring-core "1.6.1"]
                  [ring/ring-jetty-adapter "1.6.1"]
                  [ring/ring-json "0.4.0"]
                  [bidi "2.1.1"]]
 
-  :plugins [[lein-cljsbuild "1.1.4"]
-            [lein-ring "0.8.10"]]
-
-  :ring {:handler neurot-template.core/app}
+  :plugins [[lein-cljsbuild "1.1.4"]]
 
   :min-lein-version "2.5.3"
 
@@ -22,7 +20,7 @@
                                     "test/js"]
 
   :figwheel {:css-dirs ["resources/public/css"]
-             :ring-handler atii.handler/handler}
+             :ring-handler atii.handler/app}
 
   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
 
@@ -50,6 +48,7 @@
 
     {:id           "min"
      :source-paths ["src/cljs"]
+     :jar          true
      :compiler     {:main            neurot-template.core
                     :output-to       "resources/public/js/compiled/app.js"
                     :optimizations   :advanced
@@ -63,4 +62,8 @@
                     :output-dir    "resources/public/js/compiled/test/out"
                     :optimizations :none}}]}
 
-  :main neurot-template.core)
+  :main neurot-template.core
+
+  :uberjar-name "neurot-template.jar"
+
+  :prep-tasks [["cljsbuild" "once" "min"] "compile"])
