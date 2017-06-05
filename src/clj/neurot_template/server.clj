@@ -1,16 +1,25 @@
 (ns neurot-template.server
   (:use [org.httpkit.server :only [run-server]])
-  (:require [bidi.ring :refer (make-handler)]
+  (:require [neurot-template.core :refer [handle-request]]
+            [bidi.ring :refer (make-handler)]
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
-            [ring.util.response :refer [response resource-response]]
-            [ring.middleware.cors :refer [wrap-cors]]))
+            [ring.middleware.cors :refer [wrap-cors]]
+            [ring.middleware.reload :refer [wrap-reload]]
+            [ring.util.response :refer [response resource-response]]))
 
 (defn api-handler [request]
-  (response {:name "api" :version "0.0.1"}))
+  (response (handle-request request)))
 
 (def handler
   (make-handler ["" {"/" (resource-response "index.html" {:root "public"})
                      "/api" api-handler}]))
+
+(def app-dev (-> #'handler
+                 (wrap-reload)
+                 (wrap-json-body {:keywords? true :bigdecimals? true})
+                 (wrap-json-response)
+                 (wrap-cors :access-control-allow-origin [#"http://localhost"]
+                            :access-control-allow-methods [:get :put :post :delete])))
 
 (def app (-> handler
              (wrap-json-body {:keywords? true :bigdecimals? true})

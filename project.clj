@@ -20,7 +20,7 @@
                                     "test/js"]
 
   :figwheel {:css-dirs ["resources/public/css"]
-             :ring-handler neurot-template.server/app}
+             :ring-handler neurot-template.server/app-dev}
 
   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
 
