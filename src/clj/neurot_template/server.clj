@@ -1,21 +1,10 @@
 (ns neurot-template.server
   (:use org.httpkit.server
         [compojure.core :only [GET POST defroutes routes]]
-        [compojure.handler :only [api]]
         [ring.util.response :only [file-response response]]
         [pneumatic-tubes.core :only [receiver transmitter dispatch]]
-        [pneumatic-tubes.httpkit :only [websocket-handler]]))
-  ;; (:use [org.httpkit.server :only [run-server]])
-  ;; (:require [neurot-template.core :refer [handle-request]]
-  ;;           [compojure.core :only [GET POST defroutes routes]]
-  ;;           [compojure.handler :only [api]]
-  ;;           ;; [bidi.ring :refer (make-handler)]
-            ;; [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
-            ;; [ring.middleware.cors :refer [wrap-cors]]
-  ;;           ;; [ring.middleware.reload :refer [wrap-reload]]
-  ;;           [ring.util.response :refer [response file-response]]
-  ;;           [pneumatic-tubes.core :only [receiver transmitter dispatch]]
-  ;;           [pneumatic-tubes.httpkit :only [websocket-handler]]))
+        [pneumatic-tubes.httpkit :only [websocket-handler]])
+  (:require [neurot-template.core :refer [handle-request]]))
 
 (def tx (transmitter))
 (def dispatch-to (partial dispatch tx))
@@ -23,9 +12,9 @@
 (def numbers (atom {}))
 
 (defn- average [numbers]
-  (double (if  (empty? numbers)
-             -1
-             (/ (apply + numbers) (count numbers)))))
+  (double (if (empty? numbers)
+            -1
+            (/ (apply + numbers) (count numbers)))))
 
 (defn- update-number! [client-id num]
   (let [nums (swap! numbers assoc client-id num)]
@@ -52,37 +41,9 @@
             from)}))
 
 (defroutes app
-  (GET "/" [] (file-response "index.html" {:root "resources/public"}))
+  (GET "/" []  (file-response "index.html" {:root "resources/public"}))
   (GET "/ws" [] (websocket-handler rx))
-  ;; (GET "/api" [] (-> (response (handle-request request))
-  ;;                    (wrap-json-body)
-  ;;                    (wrap-json-response)
-  ;;                    (wrap-cors :access-control-allow-origin [#"http://localhost"]
-  ;;                               :access-control-allow-methods [:get :put :post :delete])))
-  )
-
-;; (defn api-handler [request]
-;;   (response (handle-request request)))
-
-;; (def handler
-;;   (make-handler ["" {"/" (resource-response "index.html" {:root "public"})
-;;                      ;; "/api" api-handler
-;;                      "/ws" (websocket-handler rx)}]))
-
-;; (def app-dev (-> #'handler
-;;                  (wrap-reload)
-;;                  ;; (wrap-json-body {:keywords? true :bigdecimals? true})
-;;                  ;; (wrap-json-response)
-                 ;; (wrap-cors :access-control-allow-origin [#"http://localhost"]
-                 ;;            :access-control-allow-methods [:get :put :post :delete])
-;;                  ))
-
-;; (def app (-> handler
-;;              ;; (wrap-json-body {:keywords? true :bigdecimals? true})
-;;              ;; (wrap-json-response)
-;;              ;; (wrap-cors :access-control-allow-origin [#"http://localhost"]
-;;              ;;            :access-control-allow-methods [:get :put :post :delete])
-;;              ))
+  (GET "/api" [] (response (str {:name "api" :version "0.0.1"}))))
 
 (defn -main []
   (run-server app {:port 3000 :join? false}))

@@ -6,12 +6,7 @@
                  [re-frisk "0.4.5"]
                  [yogthos/config "0.8"]
                  [compojure "1.5.2"]
-                 [ring "1.5.1"]
                  [ring/ring-core "1.6.1"]
-                 [ring/ring-json "0.4.0"]
-                 [ring/ring-devel "1.6.1"]
-                 ;; [http-kit "2.2.0"]
-                 [bidi "2.1.1"]
                  [pneumatic-tubes "0.2.0"]]
 
   :plugins [[lein-cljsbuild "1.1.4"]]
