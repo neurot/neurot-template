@@ -1,9 +1,16 @@
 (ns neurot-template.views
-    (:require [re-frame.core :as re-frame]))
+    (:require [re-frame.core :refer [subscribe dispatch]]))
 
 ;; main panel
 
 (defn main-panel []
-  (let [name (re-frame/subscribe [:name])]
+  (let [name      (subscribe [:name])
+        my-number (subscribe [:my-number])
+        avg       (subscribe [:average])]
     (fn []
-      [:div "This is " @name "."])))
+      [:div
+       [:h "This is " @name "."]
+       [:input {:type      :number
+                :on-change #(dispatch [:number-changed (-> % .-target .-value)])
+                :value     @my-number}]
+       [:p "Overall avg: " @avg]])))

@@ -5,10 +5,14 @@
                  [re-frame "0.9.4"]
                  [re-frisk "0.4.5"]
                  [yogthos/config "0.8"]
-                 [ring/ring-core "1.6.1"]
-                 [ring/ring-json "0.4.0"]
-                 [http-kit "2.2.0"]
-                 [bidi "2.1.1"]]
+                 [compojure "1.5.2"]
+                 [ring "1.5.1"]
+                 ;; [ring/ring-core "1.6.1"]
+                 ;; [ring/ring-json "0.4.0"]
+                 ;; [ring/ring-devel "1.6.1"]
+                 ;; [http-kit "2.2.0"]
+                 [bidi "2.1.1"]
+                 [pneumatic-tubes "0.2.0"]]
 
   :plugins [[lein-cljsbuild "1.1.4"]]
 
@@ -20,7 +24,7 @@
                                     "test/js"]
 
   :figwheel {:css-dirs ["resources/public/css"]
-             :ring-handler neurot-template.server/app-dev}
+             :ring-handler neurot-template.server/app}
 
   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
 
@@ -28,8 +32,7 @@
   {:dev
    {:dependencies [[binaryage/devtools "0.9.4"]
                    [figwheel-sidecar "0.5.10"]
-                   [com.cemerick/piggieback "0.2.1"]
-                   [ring/ring-devel "1.6.1"]]
+                   [com.cemerick/piggieback "0.2.1"]]
 
     :plugins [[lein-figwheel "0.5.9"]
               [lein-doo "0.1.7"]]}}
@@ -65,7 +68,8 @@
 
   :main neurot-template.server
 
-  :aot [neurot-template.server]
+  :aot [clojure.tools.logging.impl
+        neurot-template.server]
 
   :uberjar-name "neurot-template.jar"
 

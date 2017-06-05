@@ -1,8 +1,18 @@
 (ns neurot-template.subs
     (:require-macros [reagent.ratom :refer [reaction]])
-    (:require [re-frame.core :as re-frame]))
+    (:require [re-frame.core :refer [reg-sub]]))
 
-(re-frame/reg-sub
+(reg-sub
  :name
  (fn [db]
    (:name db)))
+
+(reg-sub
+ :my-number
+ (fn [db]
+   (:my-number db)))
+
+(reg-sub
+ :average
+ (fn [db]
+   (:avg db)))
