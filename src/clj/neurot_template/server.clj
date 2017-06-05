@@ -1,6 +1,6 @@
 (ns neurot-template.server
-  (:require [ring.adapter.jetty :as jetty]
-            [bidi.ring :refer (make-handler)]
+  (:use [org.httpkit.server :only [run-server]])
+  (:require [bidi.ring :refer (make-handler)]
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
             [ring.util.response :refer [response resource-response]]
             [ring.middleware.cors :refer [wrap-cors]]))
@@ -19,4 +19,4 @@
                         :access-control-allow-methods [:get :put :post :delete])))
 
 (defn -main []
-  (jetty/run-jetty app {:port 3000 :join? false}))
+  (run-server app {:port 3000 :join? false}))

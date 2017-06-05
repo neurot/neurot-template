@@ -6,8 +6,8 @@
                  [re-frisk "0.4.5"]
                  [yogthos/config "0.8"]
                  [ring/ring-core "1.6.1"]
-                 [ring/ring-jetty-adapter "1.6.1"]
                  [ring/ring-json "0.4.0"]
+                 [http-kit "2.2.0"]
                  [bidi "2.1.1"]]
 
   :plugins [[lein-cljsbuild "1.1.4"]]
@@ -28,7 +28,8 @@
   {:dev
    {:dependencies [[binaryage/devtools "0.9.4"]
                    [figwheel-sidecar "0.5.10"]
-                   [com.cemerick/piggieback "0.2.1"]]
+                   [com.cemerick/piggieback "0.2.1"]
+                   [ring/ring-devel "1.6.1"]]
 
     :plugins [[lein-figwheel "0.5.9"]
               [lein-doo "0.1.7"]]}}
