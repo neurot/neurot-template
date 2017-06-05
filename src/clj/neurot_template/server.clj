@@ -10,8 +10,8 @@
   ;;           [compojure.core :only [GET POST defroutes routes]]
   ;;           [compojure.handler :only [api]]
   ;;           ;; [bidi.ring :refer (make-handler)]
-  ;;           ;; [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
-  ;;           ;; [ring.middleware.cors :refer [wrap-cors]]
+            ;; [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
+            ;; [ring.middleware.cors :refer [wrap-cors]]
   ;;           ;; [ring.middleware.reload :refer [wrap-reload]]
   ;;           [ring.util.response :refer [response file-response]]
   ;;           [pneumatic-tubes.core :only [receiver transmitter dispatch]]
@@ -23,7 +23,9 @@
 (def numbers (atom {}))
 
 (defn- average [numbers]
-  (double (/ (apply + numbers) (count numbers))))
+  (double (if  (empty? numbers)
+             -1
+             (/ (apply + numbers) (count numbers)))))
 
 (defn- update-number! [client-id num]
   (let [nums (swap! numbers assoc client-id num)]
@@ -51,7 +53,13 @@
 
 (defroutes app
   (GET "/" [] (file-response "index.html" {:root "resources/public"}))
-  (GET "/ws" [] (websocket-handler rx)))
+  (GET "/ws" [] (websocket-handler rx))
+  ;; (GET "/api" [] (-> (response (handle-request request))
+  ;;                    (wrap-json-body)
+  ;;                    (wrap-json-response)
+  ;;                    (wrap-cors :access-control-allow-origin [#"http://localhost"]
+  ;;                               :access-control-allow-methods [:get :put :post :delete])))
+  )
 
 ;; (defn api-handler [request]
 ;;   (response (handle-request request)))
@@ -65,8 +73,8 @@
 ;;                  (wrap-reload)
 ;;                  ;; (wrap-json-body {:keywords? true :bigdecimals? true})
 ;;                  ;; (wrap-json-response)
-;;                  ;; (wrap-cors :access-control-allow-origin [#"http://localhost"]
-;;                  ;;            :access-control-allow-methods [:get :put :post :delete])
+                 ;; (wrap-cors :access-control-allow-origin [#"http://localhost"]
+                 ;;            :access-control-allow-methods [:get :put :post :delete])
 ;;                  ))
 
 ;; (def app (-> handler

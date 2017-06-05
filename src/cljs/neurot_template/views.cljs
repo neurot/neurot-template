@@ -9,7 +9,7 @@
         avg       (subscribe [:average])]
     (fn []
       [:div
-       [:h "This is " @name "."]
+       [:h1 "This is " @name "."]
        [:input {:type      :number
                 :on-change #(dispatch [:number-changed (-> % .-target .-value)])
                 :value     @my-number}]
