@@ -1,16 +1,32 @@
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Source Sans Pro', sans-serif;}
-
-p {
-    text-align: justify;
-    hyphens: auto; /* silbentrennung - land="de" ist relevant! */
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
+/* p der auf p folg... */
 /* p + p { */
 /*     text-indent: 1em; */
 /* } */
 
-a {font-family: 'Source Sans Pro', sans-serif;}
+a {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.bgpink {
+    background-color: #FF2C90;
+}
+
+.bgb {
+    display: table;
+    padding: 0.1em 0.2em;
+    color: white;
+    background-color: black;
+}
+
+.bgw {
+    display: table;
+    z-index: 999;
+    background-color: white;
+}
 
 .em33 {
     width: 33em;
@@ -18,4 +34,5 @@ a {font-family: 'Source Sans Pro', sans-serif;}
     margin-left: auto;
     margin-right: auto;
     text-align: justify;
-    hyphens: auto; /* silbentrennung - land="de" ist relevant! */}
+    hyphens: auto; /* silbentrennung - land="de" ist relevant! */
+}
