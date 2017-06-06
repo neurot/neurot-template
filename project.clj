@@ -7,7 +7,9 @@
                  [yogthos/config "0.8"]
                  [compojure "1.6.0"]
                  [ring "1.6.1"]
-                 [pneumatic-tubes "0.2.0"]]
+                 [ring/ring-defaults "0.2.1"]
+                 [pneumatic-tubes "0.2.0"]
+                 [environ "1.1.0"]]
 
   :plugins [[lein-cljsbuild "1.1.4"]]
 
@@ -19,7 +21,7 @@
                                     "test/js"]
 
   :figwheel {:css-dirs ["resources/public/css"]
-             :ring-handler neurot-template.server/app}
+             :ring-handler neurot-template.server/app-reload}
 
   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
 
