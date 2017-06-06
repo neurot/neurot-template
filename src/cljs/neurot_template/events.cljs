@@ -7,7 +7,7 @@
   (.log js/console "received from server:" (str event-v))
   (dispatch event-v))
 
-(def tube (tubes/tube (str "ws://localhost:3449/ws") on-receive))
+(def tube (tubes/tube (str "ws://neurot.herokuapp.com/ws") on-receive))
 (def send-to-server (after (fn [_ v] (tubes/dispatch tube v))))
 
 (reg-event-db
