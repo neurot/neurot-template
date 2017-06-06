@@ -12,9 +12,10 @@ p {
 
 a {font-family: 'Source Sans Pro', sans-serif;}
 
-.sixsix {
+.em33 {
     width: 33em;
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-}
+    text-align: justify;
+    hyphens: auto; /* silbentrennung - land="de" ist relevant! */}

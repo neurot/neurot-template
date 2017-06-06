@@ -5,9 +5,12 @@
                  [re-frame "0.9.4"]
                  [re-frisk "0.4.5"]
                  [yogthos/config "0.8"]
-                 [compojure "1.5.2"]
-                 [ring/ring-core "1.6.1"]
-                 [pneumatic-tubes "0.2.0"]]
+                 [compojure "1.6.0"]
+                 ;; [ring/ring-devel "1.6.1"]
+                 [ring "1.6.1"]
+                 [pneumatic-tubes "0.2.0"]
+                 ;; [http-kit "2.0.0"]
+                 ]
 
   :plugins [[lein-cljsbuild "1.1.4"]]
 

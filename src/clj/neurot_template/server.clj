@@ -1,10 +1,10 @@
 (ns neurot-template.server
   (:use org.httpkit.server
+        [neurot-template.core :refer [handle-request]]
         [compojure.core :only [GET POST defroutes routes]]
         [ring.util.response :only [file-response response]]
         [pneumatic-tubes.core :only [receiver transmitter dispatch]]
-        [pneumatic-tubes.httpkit :only [websocket-handler]])
-  (:require [neurot-template.core :refer [handle-request]]))
+        [pneumatic-tubes.httpkit :only [websocket-handler]]))
 
 (def tx (transmitter))
 (def dispatch-to (partial dispatch tx))
