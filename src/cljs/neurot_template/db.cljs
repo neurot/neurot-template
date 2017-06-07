@@ -3,4 +3,5 @@
 (def default-db
   {:name      "neurot-template"
    :my-number 0
-   :avg       0})
+   :avg       0
+   :status    "connected/ready"})

@@ -16,3 +16,8 @@
  :average
  (fn [db]
    (:avg db)))
+
+(reg-sub
+ :status
+ (fn [db]
+   (:status db)))

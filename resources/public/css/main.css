@@ -7,6 +7,37 @@ h1, h2, h3, h4, h5, h6 {
 /*     text-indent: 1em; */
 /* } */
 
+.menu, .settings, .status, .info {
+    font-size: 0.8em;
+    padding: 0.3em;
+    margin: 0.3em;
+    position: fixed;
+    font-family: 'Source Code Pro', monospace;
+    display: table;
+    z-index: 999;
+    background-color: white;
+}
+
+.menu {
+    top: 0;
+    left: 0;
+}
+
+.settings {
+    top: 0;
+    right: 0;
+}
+
+.status {
+    bottom: 0;
+    left: 0;
+}
+
+.info {
+    bottom: 0;
+    right: 0;
+}
+
 a {
     font-family: 'Source Sans Pro', sans-serif;
 }
@@ -29,6 +60,7 @@ a {
 }
 
 .em33 {
+    padding: 0px 3px;
     width: 33em;
     max-width: 100%;
     margin-left: auto;
