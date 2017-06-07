@@ -1,10 +1,12 @@
 (ns neurot-template.events
     (:require [re-frame.core :refer [reg-event-db dispatch after]]
               [neurot-template.db :refer [default-db]]
-              [pneumatic-tubes.core :as tubes]))
+              [pneumatic-tubes.core :as tubes]
+              [klang.core :refer-macros [info! warn! erro! crit! fata! trac!]]))
 
 (defn on-receive [event-v]
-  (.log js/console "received from server:" (str event-v))
+  ;; (.log js/console "received from server:" (str event-v))
+  (info! "Received from server:" event-v)
   (dispatch event-v))
 
 (def tube (tubes/tube (str "ws://localhost:3449/ws") on-receive))

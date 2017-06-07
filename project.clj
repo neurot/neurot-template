@@ -7,9 +7,10 @@
                  [yogthos/config "0.8"]
                  [compojure "1.6.0"]
                  [ring "1.6.1"]
-                 [ring/ring-defaults "0.2.1"]
+                 [ring/ring-defaults "0.3.0"]
                  [pneumatic-tubes "0.2.0"]
-                 [environ "1.1.0"]]
+                 [environ "1.1.0"]
+                 [klang "0.5.7"]]
 
   :plugins [[lein-cljsbuild "1.1.4"]]
 
@@ -29,7 +30,7 @@
   {:dev
    {:dependencies [[binaryage/devtools "0.9.4"]
                    [figwheel-sidecar "0.5.10"]
-                   [com.cemerick/piggieback "0.2.1"]]
+                   [com.cemerick/piggieback "0.2.2"]]
 
     :plugins [[lein-figwheel "0.5.9"]
               [lein-doo "0.1.7"]]}}
