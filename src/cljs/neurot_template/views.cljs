@@ -1,6 +1,34 @@
 (ns neurot-template.views
   (:require [re-frame.core :refer [subscribe dispatch]]
-            [neurot-template.utils :as util]))
+            [reagent.core :as reagent]
+            [neurot-template.utils :as util]
+            [cljsjs.highstock]))
+
+(def stock-data [[1276128000000 35.79][1276214400000 36.22][1276473600000 36.33][1276560000000 37.1][1276646400000 38.18][1276732800000 38.84][1276819200000 39.15][1277078400000 38.6][1277164800000 39.12][1277251200000 38.71][1277337600000 38.43][1277424000000 38.1]])
+
+(def cnfg-atom (reagent/atom nil))
+
+(def default-cnfg
+  {:rangeSelector {:selected 1}
+   :title {:text "Stock Price"}
+   :series [{:name "AAPL"
+             :data stock-data
+             :tooltip {:valueDecimals 2}}]}
+  )
+
+(reset! cnfg-atom default-cnfg)
+
+(defn render-stock-fn [cnfg-atom]
+  (fn [component]
+    (.stockChart js/Highcharts (reagent/dom-node component) (clj->js @cnfg-atom))))
+
+(defn stock-ui [cnfg-atom]
+  (reagent/create-class
+   {:component-did-mount (render-stock-fn cnfg-atom)
+    :component-did-update (render-stock-fn cnfg-atom)
+    :reagent-render (fn [cnfg-atom]
+                      @cnfg-atom
+                      [:div])}))
 
 ;; main panel
 
@@ -25,4 +53,4 @@
                  :value     @my-number}]
         [:p "Overall avg: " @avg]]
        [:div
-        [:img {:src "http://jmartinho.net/wp-content/uploads/2014/10/camara-neuronal-banner_web.jpg" :width "100%"}]]])))
+        [stock-ui cnfg-atom]]])))

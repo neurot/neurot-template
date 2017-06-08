@@ -11,7 +11,7 @@
   (when config/debug?
     (enable-console-print!)
     (enable-re-frisk!)
-    (println "dev mode")))
+    (println "app is running in dev-mode")))
 
 (defn mount-root []
   (re-frame/clear-subscription-cache!)

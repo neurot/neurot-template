@@ -5,7 +5,6 @@
               [klang.core :refer-macros [info! warn! erro! crit! fata! trac!]]))
 
 (defn on-receive [event-v]
-  ;; (.log js/console "received from server:" (str event-v))
   (info! "Received from server:" event-v)
   (dispatch event-v))
 
