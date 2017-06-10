@@ -4,4 +4,5 @@
   {:name      "neurot-template"
    :my-number 0
    :avg       0
-   :status    "connected/ready"})
+   :status    "connected/ready"
+   :asset "foo"})

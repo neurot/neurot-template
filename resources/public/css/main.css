@@ -1,13 +1,32 @@
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: 'Source Sans Pro', sans-serif;
 }
 
+
 /* p der auf p folg... */
+
+
 /* p + p { */
+
+
 /*     text-indent: 1em; */
+
+
 /* } */
 
-.menu, .settings, .status, .info {
+button {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.menu,
+.settings,
+.status,
+.info {
     font-size: 0.8em;
     padding: 0.3em;
     margin: 0.3em;
@@ -53,6 +72,15 @@ a {
     background-color: black;
 }
 
+.bgw-basker {
+    display: table;
+    font-size: 0.87em;
+    z-index: 999;
+    background-color: white;
+    font-family: 'Libre Baskerville', serif;
+    line-height: 1.5;
+}
+
 .bgw {
     display: table;
     z-index: 999;
@@ -66,5 +94,6 @@ a {
     margin-left: auto;
     margin-right: auto;
     text-align: justify;
-    hyphens: auto; /* silbentrennung - land="de" ist relevant! */
+    hyphens: auto;
+    /* silbentrennung - land="de" ist relevant! */
 }

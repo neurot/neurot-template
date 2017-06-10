@@ -4,7 +4,7 @@
             [neurot-template.utils :as util]
             [cljsjs.highstock]))
 
-(def stock-data [[1276128000000 35.79][1276214400000 36.22][1276473600000 36.33][1276560000000 37.1][1276646400000 38.18][1276732800000 38.84][1276819200000 39.15][1277078400000 38.6][1277164800000 39.12][1277251200000 38.71][1277337600000 38.43][1277424000000 38.1]])
+(def stock-data [[1276128000000 35.79] [1276214400000 36.22] [1276473600000 36.33] [1276560000000 37.1] [1276646400000 38.18] [1276732800000 38.84] [1276819200000 39.15] [1277078400000 38.6] [1277164800000 39.12] [1277251200000 38.71] [1277337600000 38.43] [1277424000000 38.1]])
 
 (def cnfg-atom (reagent/atom nil))
 
@@ -13,8 +13,7 @@
    :title {:text "Stock Price"}
    :series [{:name "AAPL"
              :data stock-data
-             :tooltip {:valueDecimals 2}}]}
-  )
+             :tooltip {:valueDecimals 2}}]})
 
 (reset! cnfg-atom default-cnfg)
 
@@ -46,11 +45,16 @@
        [:div.em33
         [:h1 @name]]
        [:div.em33
-        [:p.bgw util/lorem-tweet]]
+        [:p.bgw util/lorem-s]]
+       [:div.em33
+        [:p.bgw-basker util/lorem-s]]
        [:div.em33
         [:input {:type      :number
                  :on-change #(dispatch [:number-changed (-> % .-target .-value)])
                  :value     @my-number}]
         [:p "Overall avg: " @avg]]
-       [:div
-        [stock-ui cnfg-atom]]])))
+       [:div.m1
+        [stock-ui cnfg-atom]]
+       [:div.em33
+        [:button.btn.btn-outline {:value "EURUSD"
+                                  :on-click #(dispatch [:request-asset (-> % .-target .-value)])} "Request Asset"]]])))

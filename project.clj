@@ -11,7 +11,8 @@
                  [pneumatic-tubes "0.2.0"]
                  [environ "1.1.0"]
                  [klang "0.5.7"]
-                 [cljsjs/highstock "5.0.12-0"]]
+                 [cljsjs/highstock "5.0.12-0"]
+                 [com.taoensso/timbre "4.10.0"]]
 
   :plugins [[lein-cljsbuild "1.1.4"]]
 

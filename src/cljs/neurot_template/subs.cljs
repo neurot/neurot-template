@@ -21,3 +21,8 @@
  :status
  (fn [db]
    (:status db)))
+
+(reg-sub
+ :asset
+ (fn [db]
+   (:asset db)))

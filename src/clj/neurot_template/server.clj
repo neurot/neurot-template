@@ -24,6 +24,9 @@
   (let [nums (swap! numbers assoc client-id num)]
     (dispatch-to :all [:average-changed (average (vals nums))])))
 
+(defn- calc-asset! [client-id request]
+  (dispatch-to :all [:asset "bar"]))
+
 (defn- remove-number! [client-id]
   (let [nums (swap! numbers dissoc client-id)]
     (dispatch-to :all [:average-changed (average (vals nums))])))
@@ -42,7 +45,16 @@
           :number-changed
           (fn [from [_ num]]
             (update-number! (:tube/id from) (read-string num))
-            from)}))
+            from)
+
+          :request-asset
+          ;; (fn [from [a b]]
+          ;;   (update-number! (:tube/id from) (read-string "5"))
+          ;;   from)
+          (fn [from [_ request]]
+            (calc-asset! (:tube/id from) request)
+            from)
+          }))
 
 (defroutes handler
   (GET "/" []  (file-response "index.html" {:root "resources/public"}))
