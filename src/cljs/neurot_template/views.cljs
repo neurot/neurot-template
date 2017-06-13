@@ -33,14 +33,14 @@
 
 (defn main-panel []
   (let [name      (subscribe [:name])
-        my-number (subscribe [:my-number])
-        avg       (subscribe [:average])
-        status    (subscribe [:status])]
+        ;; status    (subscribe [:status])
+        local-test-data (subscribe [:local-test-data])
+        remote-test-data (subscribe [:remote-test-data])]
     (fn []
       [:div
        ;; [:div.menu "menu"]
        ;; [:div.settings "settings"]
-       [:div.status @status]
+       ;; [:div.status @status]
        ;; [:div.info "info"]
        [:div.em33
         [:h1 @name]]
@@ -48,13 +48,15 @@
         [:p.bgw util/lorem-s]]
        [:div.em33
         [:p.bgw-basker util/lorem-s]]
+       ;; [:div.em33
+       ;;  [:input {:type      :number
+       ;;           :on-change #(dispatch [:number-changed (-> % .-target .-value)])
+       ;;           :value     @my-number}]
+       ;;  [:p "Overall avg: " @avg]]
        [:div.em33
-        [:input {:type      :number
-                 :on-change #(dispatch [:number-changed (-> % .-target .-value)])
-                 :value     @my-number}]
-        [:p "Overall avg: " @avg]]
+        [:button.btn.btn-outline.black {:on-click #(dispatch [:test-event "bar"])} "Test"]
+        [:div (str "local testdata: " @local-test-data)]
+        [:div (str "remote testdata: " @remote-test-data)]]
        [:div.m1
         [stock-ui cnfg-atom]]
-       [:div.em33
-        [:button.btn.btn-outline {:value "EURUSD"
-                                  :on-click #(dispatch [:request-asset (-> % .-target .-value)])} "Request Asset"]]])))
+       ])))

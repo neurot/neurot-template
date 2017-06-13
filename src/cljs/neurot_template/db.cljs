@@ -2,7 +2,6 @@
 
 (def default-db
   {:name      "neurot-template"
-   :my-number 0
-   :avg       0
    :status    "connected/ready"
-   :asset "foo"})
+   :local-test-data "foo"
+   :remote-test-data "foo"})

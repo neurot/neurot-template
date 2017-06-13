@@ -13,47 +13,56 @@
 (def tx (transmitter))
 (def dispatch-to (partial dispatch tx))
 
-(def numbers (atom {}))
+;; (def numbers (atom {}))
 
-(defn- average [numbers]
-  (double (if (empty? numbers)
-            -1
-            (/ (apply + numbers) (count numbers)))))
+;; (defn- average [numbers]
+;;   (double (if (empty? numbers)
+;;             -1
+;;             (/ (apply + numbers) (count numbers)))))
 
-(defn- update-number! [client-id num]
-  (let [nums (swap! numbers assoc client-id num)]
-    (dispatch-to :all [:average-changed (average (vals nums))])))
+;; (defn- update-number! [client-id num]
+;;   (let [nums (swap! numbers assoc client-id num)]
+;;     (dispatch-to :all [:average-changed (average (vals nums))])))
 
-(defn- calc-asset! [client-id request]
-  (dispatch-to :all [:asset "bar"]))
+;; (defn- calc-asset! [client-id request]
+;;   (dispatch-to :all [:asset "bar"]))
 
-(defn- remove-number! [client-id]
-  (let [nums (swap! numbers dissoc client-id)]
-    (dispatch-to :all [:average-changed (average (vals nums))])))
+;; (defn- remove-number! [client-id]
+;;   (let [nums (swap! numbers dissoc client-id)]
+;;     (dispatch-to :all [:average-changed (average (vals nums))])))
+
+(defn- update-data! [client-id data]
+  (dispatch-to :all [:remote-data data]))
 
 (def rx (receiver
          {:tube/on-create
           (fn [from _]
-            (update-number! (:tube/id from) 0)
+            (dispatch-to from [:welcome from])
             from)
 
           :tube/on-destroy
           (fn [from _]
-            (remove-number! (:tube/id from))
+            (dispatch-to from [:bye from])
             from)
 
-          :number-changed
-          (fn [from [_ num]]
-            (update-number! (:tube/id from) (read-string num))
+          :test-event
+          (fn [from [_ data]]
+            (update-data! (:tube/id from) data)
             from)
 
-          :request-asset
-          ;; (fn [from [a b]]
-          ;;   (update-number! (:tube/id from) (read-string "5"))
+
+          ;; :number-changed
+          ;; (fn [from [_ num]]
+          ;;   (update-number! (:tube/id from) (read-string num))
           ;;   from)
-          (fn [from [_ request]]
-            (calc-asset! (:tube/id from) request)
-            from)
+
+          ;; :request-asset
+          ;; ;; (fn [from [a b]]
+          ;; ;;   (update-number! (:tube/id from) (read-string "5"))
+          ;; ;;   from)
+          ;; (fn [from [_ request]]
+          ;;   (calc-asset! (:tube/id from) request)
+          ;;   from)
           }))
 
 (defroutes handler

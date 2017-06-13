@@ -7,22 +7,17 @@
  (fn [db]
    (:name db)))
 
-(reg-sub
- :my-number
- (fn [db]
-   (:my-number db)))
+;; (reg-sub
+;;  :status
+;;  (fn [db]
+;;    (:status db)))
 
 (reg-sub
- :average
+ :remote-test-data
  (fn [db]
-   (:avg db)))
+   (:remote-test-data db)))
 
 (reg-sub
- :status
+ :local-test-data
  (fn [db]
-   (:status db)))
-
-(reg-sub
- :asset
- (fn [db]
-   (:asset db)))
+   (:local-test-data db)))
