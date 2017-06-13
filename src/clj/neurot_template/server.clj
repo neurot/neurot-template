@@ -1,6 +1,7 @@
 (ns neurot-template.server
   (:use org.httpkit.server
         [neurot-template.core :refer [handle-request]]
+        [neurot-template.assets :refer [test-asset]]
         [compojure.core :only [GET POST defroutes routes]]
         [compojure.route :refer [resources not-found]]
         [ring.util.response :only [file-response response]]
@@ -32,7 +33,7 @@
 ;;     (dispatch-to :all [:average-changed (average (vals nums))])))
 
 (defn- update-data! [client-id data]
-  (dispatch-to :all [:remote-data data]))
+  (dispatch-to :all [:test/remote-data data]))
 
 (def rx (receiver
          {:tube/on-create
@@ -45,7 +46,12 @@
             (dispatch-to from [:bye from])
             from)
 
-          :test-event
+          :assets/get
+          (fn [from [_ data]]
+            (dispatch-to from [:assets/set test-asset])
+            from)
+
+          :test/test-event
           (fn [from [_ data]]
             (update-data! (:tube/id from) data)
             from)

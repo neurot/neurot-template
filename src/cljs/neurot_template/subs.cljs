@@ -7,10 +7,10 @@
  (fn [db]
    (:name db)))
 
-;; (reg-sub
-;;  :status
-;;  (fn [db]
-;;    (:status db)))
+(reg-sub
+ :connected?
+ (fn [db]
+   (:connected? db)))
 
 (reg-sub
  :remote-test-data

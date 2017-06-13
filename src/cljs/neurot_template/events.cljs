@@ -25,17 +25,20 @@
 (reg-event-db
  :bye
  (fn [db [_ data]]
-   db;; (info! "bye" data)
-   ))
+   (assoc db :connected? false)))
 
 (reg-event-db
  :welcome
  (fn [db [_ data]]
-   db;; (info! "welcome" data)
-   ))
+   (assoc db :connected? true)))
 
 (reg-event-db
- :remote-data
+ :assets/set
+ (fn [db [_ data]]
+   (assoc db :asset data)))
+
+(reg-event-db
+ :test/remote-data
  (fn [db [_ data]]
    (assoc db :remote-test-data data)))
 
@@ -50,10 +53,17 @@
 ;;    (assoc db :asset asset)))
 
 (reg-event-db
- :test-event
+ :assets/get
  send-to-server
  (fn [db [event data]]
-   (info! "Request to server:" [event data])
+   (info! "ws/request:" [event data])
+   db))
+
+(reg-event-db
+ :test/test-event
+ send-to-server
+ (fn [db [event data]]
+   (info! "ws/request:" [event data])
    (assoc db :local-test-data data)))
 
 ;; (reg-event-db
