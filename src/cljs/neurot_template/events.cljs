@@ -35,7 +35,7 @@
 (reg-event-db
  :assets/set
  (fn [db [_ data]]
-   (assoc db :asset data)))
+   (assoc-in db [:chart-cnfg :series 0 :data] data)))
 
 (reg-event-db
  :test/remote-data

@@ -13,6 +13,11 @@
    (:connected? db)))
 
 (reg-sub
+ :chart-cnfg
+ (fn [db]
+   (:chart-cnfg db)))
+
+(reg-sub
  :remote-test-data
  (fn [db]
    (:remote-test-data db)))

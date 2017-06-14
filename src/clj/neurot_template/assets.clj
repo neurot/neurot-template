@@ -21,5 +21,5 @@
 (defn asset [asset]
   (format-raw-data (slurp (str "data/" asset ".csv"))))
 
-(def test-asset (format-raw-data (slurp "data/DAT_ASCII_EURUSD_M1_2016.csv")))
+(def test-asset (format-raw-data (slurp "data/test.csv")))
 ;; (spit "form.csv" (format-data (slurp "data/DAT_ASCII_EURUSD_M1_2016.csv")))

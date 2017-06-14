@@ -5,4 +5,11 @@
    :connected?       false
    :local-test-data  "foo"
    :remote-test-data "foo"
-   :asset            ""})
+   :asset            nil
+   :chart-cnfg       {:rangeSelector {:selected 1}
+                      :chart         {:type     "candlestick"
+                                      :zoomType "x"}
+                      :title         {:text "Stock Price"}
+                      :series        [{:name    "AAPL"
+                                       :data    nil
+                                       :tooltip {:valueDecimals 2}}]}})
