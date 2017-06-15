@@ -12,4 +12,4 @@
                       :title         {:text "Stock Price"}
                       :series        [{:name    "AAPL"
                                        :data    nil
-                                       :tooltip {:valueDecimals 2}}]}})
+                                       :tooltip {:valueDecimals 4}}]}})

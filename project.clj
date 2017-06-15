@@ -12,8 +12,9 @@
                  [environ "1.1.0"]
                  [klang "0.5.7"]
                  [cljsjs/highstock "5.0.12-0"]
+                 [clj-time "0.13.0"]
                  [com.taoensso/timbre "4.10.0"]
-                 [clj-time "0.13.0"]]
+                 [com.taoensso/carmine "2.16.0"]]
 
   :plugins [[lein-cljsbuild "1.1.4"]]
 

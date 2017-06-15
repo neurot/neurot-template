@@ -1,7 +1,7 @@
 (ns neurot-template.server
   (:use org.httpkit.server
         [neurot-template.core :refer [handle-request]]
-        [neurot-template.assets :refer [test-asset]]
+        [neurot-template.assets :refer [get-asset]]
         [compojure.core :only [GET POST defroutes routes]]
         [compojure.route :refer [resources not-found]]
         [ring.util.response :only [file-response response]]
@@ -13,24 +13,6 @@
 
 (def tx (transmitter))
 (def dispatch-to (partial dispatch tx))
-
-;; (def numbers (atom {}))
-
-;; (defn- average [numbers]
-;;   (double (if (empty? numbers)
-;;             -1
-;;             (/ (apply + numbers) (count numbers)))))
-
-;; (defn- update-number! [client-id num]
-;;   (let [nums (swap! numbers assoc client-id num)]
-;;     (dispatch-to :all [:average-changed (average (vals nums))])))
-
-;; (defn- calc-asset! [client-id request]
-;;   (dispatch-to :all [:asset "bar"]))
-
-;; (defn- remove-number! [client-id]
-;;   (let [nums (swap! numbers dissoc client-id)]
-;;     (dispatch-to :all [:average-changed (average (vals nums))])))
 
 (defn- update-data! [client-id data]
   (dispatch-to :all [:test/remote-data data]))
@@ -48,28 +30,13 @@
 
           :assets/get
           (fn [from [_ data]]
-            (dispatch-to from [:assets/set test-asset])
+            (dispatch-to from [:assets/set (get-asset data)])
             from)
 
           :test/test-event
           (fn [from [_ data]]
             (update-data! (:tube/id from) data)
-            from)
-
-
-          ;; :number-changed
-          ;; (fn [from [_ num]]
-          ;;   (update-number! (:tube/id from) (read-string num))
-          ;;   from)
-
-          ;; :request-asset
-          ;; ;; (fn [from [a b]]
-          ;; ;;   (update-number! (:tube/id from) (read-string "5"))
-          ;; ;;   from)
-          ;; (fn [from [_ request]]
-          ;;   (calc-asset! (:tube/id from) request)
-          ;;   from)
-          }))
+            from)}))
 
 (defroutes handler
   (GET "/" []  (file-response "index.html" {:root "resources/public"}))

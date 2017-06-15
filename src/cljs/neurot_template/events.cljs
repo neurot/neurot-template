@@ -7,7 +7,8 @@
 ; pneumatic tubes
 
 (defn on-receive [event-v]
-  (info! "ws/received:" event-v)
+  (info! "ws/received" ;; event-v
+         )
   (dispatch event-v))
 
 (def tube (tubes/tube (str "ws://localhost:3449/ws") on-receive))
@@ -42,15 +43,8 @@
  (fn [db [_ data]]
    (assoc db :remote-test-data data)))
 
-;; (reg-event-db
-;;  :average-changed
-;;  (fn [db [_ avg]]
-;;    (assoc db :avg avg)))
 
-;; (reg-event-db
-;;  :asset
-;;  (fn [db [_ asset]]
-;;    (assoc db :asset asset)))
+; remote-events
 
 (reg-event-db
  :assets/get
@@ -66,18 +60,7 @@
    (info! "ws/request:" [event data])
    (assoc db :local-test-data data)))
 
-;; (reg-event-db
-;;  :number-changed
-;;  send-to-server
-;;  (fn [db [event num]]
-;;    (info! "Request to server:" [event num])
-;;    (assoc db :my-number num)))
 
-;; (reg-event-db
-;;  :request-asset
-;;  send-to-server
-;;  (fn [db [a b]]
-;;       (info! "Request to server:" [a b])
-;;       (assoc db :asset "---")))
+; main
 
 (tubes/create! tube)

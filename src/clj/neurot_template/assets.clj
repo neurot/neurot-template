@@ -1,7 +1,16 @@
 (ns neurot-template.assets
   (:require [clojure.string :refer [split join]]
             [clj-time.format :as f]
-            [clj-time.coerce :as tc]))
+            [clj-time.coerce :as tc]
+            [taoensso.carmine :as car :refer [wcar]]))
+
+(def server1-conn {:pool {} :spec {:host "127.0.0.1" :port 6379}})
+(defmacro wcar* [& body] `(car/wcar server1-conn ~@body))
+
+
+
+(defn get-asset [asset]
+  (wcar* (car/get asset)))
 
 (def time-formatter (f/formatter "yyyyMMdd HHmmss"))
 
@@ -23,3 +32,7 @@
 
 (def test-asset (format-raw-data (slurp "data/test.csv")))
 ;; (spit "form.csv" (format-data (slurp "data/DAT_ASCII_EURUSD_M1_2016.csv")))
+
+
+;; (time (count (wcar* (car/get "EURUSD/M1/201705"))))
+;; (time (count (format-raw-data (slurp "data/DAT_ASCII_EURUSD_M1_201705.csv"))))
