@@ -1,16 +1,16 @@
 (ns neurot-template.assets
   (:require [clojure.string :refer [split join]]
+            [clj-time.core :as t]
             [clj-time.format :as f]
             [clj-time.coerce :as tc]
-            [taoensso.carmine :as car :refer [wcar]]))
+            [taoensso.carmine :as car :refer [wcar]]
+            [clojure.java.io :as io]
+            [clojure.string :as str]))
+
+; Redis
 
 (def server1-conn {:pool {} :spec {:host "127.0.0.1" :port 6379}})
 (defmacro wcar* [& body] `(car/wcar server1-conn ~@body))
-
-
-
-(defn get-asset [asset]
-  (wcar* (car/get asset)))
 
 (def time-formatter (f/formatter "yyyyMMdd HHmmss"))
 
@@ -25,14 +25,24 @@
             ;; (string/reverse)
             (split dta #"\n"))))
 
-;; (def raw-dta (slurp "data/DAT_ASCII_EURUSD_M1_2016.csv"))
+(defn get-asset [asset]
+  (wcar* (car/get asset)))
 
-(defn asset [asset]
-  (format-raw-data (slurp (str "data/" asset ".csv"))))
+(defn filename-to-key [filename]
+  (let [name-array (-> (second (re-matches #"(.+?)(\.[^.]*$|$)" filename))
+                       (str/split #"_"))]
+    (str (nth name-array 2) "/" (nth name-array 3) "/" (nth name-array 4))))
 
-(def test-asset (format-raw-data (slurp "data/test.csv")))
-;; (spit "form.csv" (format-data (slurp "data/DAT_ASCII_EURUSD_M1_2016.csv")))
+(defn get-csv-files [dir]
+  (filter #(.contains % ".csv") (.list (io/file dir))))
+
+(defn write-to-redis [key value]
+  (wcar* (car/set key value)))
+
+(defn import-raw-csv [dir]
+  (map #(write-to-redis (filename-to-key %)
+                        (format-raw-data (slurp (str dir "/" %))))
+       (get-csv-files dir)))
 
 
-;; (time (count (wcar* (car/get "EURUSD/M1/201705"))))
-;; (time (count (format-raw-data (slurp "data/DAT_ASCII_EURUSD_M1_201705.csv"))))
+;; (import-raw-csv "data")
