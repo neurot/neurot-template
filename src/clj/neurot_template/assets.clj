@@ -5,7 +5,10 @@
             [clj-time.coerce :as tc]
             [taoensso.carmine :as car :refer [wcar]]
             [clojure.java.io :as io]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [neurot-template.talib :refer [ta price-holder]])
+  ;; (:use [neurot-template talib])
+  )
 
 ; Redis
 
@@ -13,6 +16,9 @@
 (defmacro wcar* [& body] `(car/wcar server1-conn ~@body))
 
 (def time-formatter (f/formatter "yyyyMMdd HHmmss"))
+
+
+; Data Creation
 
 (defn format-raw-data [dta]
   (map (fn [dta] [(+ (tc/to-long (f/parse time-formatter (first dta)))
@@ -22,7 +28,7 @@
                   (read-string (nth dta 3))
                   (read-string (nth dta 4))])
        (map #(split % #";") ;split each line by ;
-            ;; (string/reverse)
+            ;; (reverse)
             (split dta #"\n"))))
 
 (defn get-asset [asset]
@@ -45,4 +51,12 @@
        (get-csv-files dir)))
 
 
+;; (write-to-redis "test-l" (format-raw-data (slurp "data/test/test-l.csv")))
+
+;; mass import
 ;; (import-raw-csv "data")
+
+
+;; (def DEMO-l (price-holder "test-l"))
+
+;; (filter #(> 0 %) (seq (first (ta "cdl2crows" [DEMOo]))))

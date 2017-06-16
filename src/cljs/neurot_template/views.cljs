@@ -36,7 +36,7 @@
        [:div.em33
         [:p.bgw-basker util/lorem-s]]
        [:div.em33
-        [:button.btn.btn-outline.black {:on-click #(dispatch [:assets/get "EURUSD/M1/2016"])} "Load Test Asset"]]
+        [:button.btn.btn-outline.black {:on-click #(dispatch [:assets/get "USDCAD/M1/2015"])} "Load Test Asset"]]
        [:div.m1
         [stock-ui cnfg]]
        ])))

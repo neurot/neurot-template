@@ -10,6 +10,7 @@
                       :chart         {:type     "candlestick"
                                       :zoomType "x"}
                       :title         {:text "Stock Price"}
-                      :series        [{:name    "AAPL"
-                                       :data    nil
-                                       :tooltip {:valueDecimals 4}}]}})
+                      :series        nil;; [{:name    "AAPL"
+                                     ;;   :data    nil
+                                     ;;   :tooltip {:valueDecimals 4}}]
+                      }})

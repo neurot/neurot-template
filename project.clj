@@ -16,6 +16,11 @@
                  [com.taoensso/timbre "4.10.0"]
                  [com.taoensso/carmine "2.16.0"]]
 
+
+  :java-source-paths ["src/java"]
+
+  :target-path "target/%s"
+
   :plugins [[lein-cljsbuild "1.1.4"]]
 
   :min-lein-version "2.5.3"
@@ -75,4 +80,4 @@
 
   :uberjar-name "neurot-template.jar"
 
-  :prep-tasks [["cljsbuild" "once" "min"] "compile"])
+  :prep-tasks [["cljsbuild" "once" "min"] "javac" "compile"])
