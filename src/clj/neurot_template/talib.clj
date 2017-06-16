@@ -112,8 +112,8 @@ Dates maintain default string format while other values are converted to BigDeci
 (defn print-functions []
   (CoreMetaData/forEachFunc function-service))
 
-;; ** Core **
 
+;; ** Core **
 
 (defn- getFunc [func]
   (CoreMetaData/getInstance func))
