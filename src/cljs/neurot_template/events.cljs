@@ -36,7 +36,12 @@
 (reg-event-db
  :assets/set
  (fn [db [_ data]]
-   (assoc-in db [:chart-cnfg :series 0 :data] data)))
+   ;; (assoc-in db [:asset] data)
+   ;; (info! :asset/set)
+   ;; (.log js/console data)
+   ;; (assoc-in db [:chart-cnfg :series 0 :data] (second data))
+   (reduce-kv assoc-in db {[:chart-cnfg :series 0 :data] (first data)
+                  [:chart-cnfg :series 1 :data] (second data)})))
 
 (reg-event-db
  :test/remote-data

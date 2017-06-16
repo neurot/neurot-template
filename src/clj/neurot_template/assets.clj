@@ -6,9 +6,7 @@
             [taoensso.carmine :as car :refer [wcar]]
             [clojure.java.io :as io]
             [clojure.string :as str]
-            [neurot-template.talib :refer [ta price-holder]])
-  ;; (:use [neurot-template talib])
-  )
+            [neurot-template.talib :refer [ta price-holder open high low close volume]]))
 
 ; Redis
 
@@ -17,11 +15,10 @@
 
 (def time-formatter (f/formatter "yyyyMMdd HHmmss"))
 
-
 ; Data Creation
 
 (defn format-raw-data [dta]
-  (map (fn [dta] [(+ (tc/to-long (f/parse time-formatter (first dta)))
+  (mapv (fn [dta] [(+ (tc/to-long (f/parse time-formatter (first dta)))
                      18000000) ; est -> utc compensation
                   (read-string (nth dta 1))
                   (read-string (nth dta 2))
@@ -31,8 +28,16 @@
             ;; (reverse)
             (split dta #"\n"))))
 
+
+(defn get-talib [asset-data]
+  (let [talib-data (reverse (seq (first (ta "wma" [(close (price-holder asset-data))] 30))))]
+    (mapv #(vector (first %1) %2) asset-data talib-data)))
+
+
 (defn get-asset [asset]
-  (wcar* (car/get asset)))
+  (let [asset-data (wcar* (car/get asset))]
+    [asset-data (get-talib asset-data)]
+    ))
 
 (defn filename-to-key [filename]
   (let [name-array (-> (second (re-matches #"(.+?)(\.[^.]*$|$)" filename))
@@ -51,12 +56,23 @@
        (get-csv-files dir)))
 
 
-;; (write-to-redis "test-l" (format-raw-data (slurp "data/test/test-l.csv")))
+;; (write-to-redis "test" (format-raw-data (slurp "data/test/test.csv")))
 
 ;; mass import
 ;; (import-raw-csv "data")
 
 
+
+;; (def DEMO-data (wcar* (car/get "test")))
+
+;; (def DEMO (price-holder (wcar* (car/get "test"))))
+
+;; (filter #(> 0 %) (seq (first (ta "rsi" [(close DEMO)] 20))))
+
 ;; (def DEMO-l (price-holder "test-l"))
 
-;; (filter #(> 0 %) (seq (first (ta "cdl2crows" [DEMOo]))))
+;; (filter #(> 0 %) (seq (first (ta "cdlharami" [DEMO-l]))))
+
+;; (ta "ADD" [(double-array [10 100 1000]) (double-array [1 2 3])])
+
+;; (wcar* (car/get "asset/test"))

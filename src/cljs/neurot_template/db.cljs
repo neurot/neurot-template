@@ -7,10 +7,13 @@
    :remote-test-data "foo"
    :asset            nil
    :chart-cnfg       {:rangeSelector {:selected 1}
-                      :chart         {:type     "candlestick"
-                                      :zoomType "x"}
+                      ;; :chart         {:type     "candlestick"
+                      ;;                 :zoomType "x"}
                       :title         {:text "Stock Price"}
-                      :series        nil;; [{:name    "AAPL"
-                                     ;;   :data    nil
-                                     ;;   :tooltip {:valueDecimals 4}}]
+                      :series         [{:name    "Price"
+                                        :data    nil
+                                        :tooltip {:valueDecimals 4}}
+                                       {:name    "TA"
+                                       :data    nil
+                                       :tooltip {:valueDecimals 4}}]
                       }})

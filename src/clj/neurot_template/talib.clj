@@ -15,7 +15,7 @@
   " Returns a vector of index-aligned vectors for stock history of provided ticker
 Dates maintain default string format while other values are converted to BigDecimal
 [ [date] [open] [high] [low] [close] [volume] ] "
-  (let [column-data (apply map vector (asset))]
+  (let [column-data (apply map vector asset)]
     [(into [] (nth column-data 0))  ;Date
      (into []  (nth column-data 1)) ;Open
      (into []  (nth column-data 2)) ;High
@@ -26,7 +26,7 @@ Dates maintain default string format while other values are converted to BigDeci
 
 (defn price-holder
     ([asset]
-    (let [data (talib-vector asset)]
+     (let [data (talib-vector (reverse asset))]
       (PriceHolder. (double-array (nth data 1));open
                     (double-array (nth data 2));high
                     (double-array (nth data 3));low
@@ -35,11 +35,11 @@ Dates maintain default string format while other values are converted to BigDeci
                     (double-array (count (nth data 1));open interest
                                  )))))
 
-;; (defn open [price-holder] (:o (bean price-holder)))
-;; (defn high [price-holder] (:h (bean price-holder)))
-;; (defn low [price-holder] (:l (bean price-holder)))
-;; (defn close [price-holder] (:c (bean price-holder)))
-;; (defn volume [price-holder] (:v (bean price-holder)))
+(defn open [price-holder] (:o (bean price-holder)))
+(defn high [price-holder] (:h (bean price-holder)))
+(defn low [price-holder] (:l (bean price-holder)))
+(defn close [price-holder] (:c (bean price-holder)))
+(defn volume [price-holder] (:v (bean price-holder)))
 
 
 
@@ -235,11 +235,3 @@ Dates maintain default string format while other values are converted to BigDeci
         :name       (.name (.getFuncInfo func))
         :options    options
         :columns    @outputCols}))))
-
-;; (def DEMO-l (price-holder "test-l"))
-
-;; (filter #(> 0 %) (seq (first (ta "cdl2crows" [DEMOo]))))
-
-;; (ta "ADD" [(double-array [10 100 1000]) (double-array [1 2 3])])
-
-;; (wcar* (car/get "asset/test"))
