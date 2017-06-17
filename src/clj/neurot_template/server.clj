@@ -30,7 +30,7 @@
 
           :assets/get
           (fn [from [_ data]]
-            (dispatch-to from [:assets/set (get-asset data)])
+            (dispatch-to from [:assets/set (get-asset (:asset data) (:talib data))])
             from)
 
           :test/test-event

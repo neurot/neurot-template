@@ -22,8 +22,6 @@
 (defn main-panel []
   (let [name      (subscribe [:name])
         connected?    (subscribe [:connected?])
-        local-test-data (subscribe [:local-test-data])
-        remote-test-data (subscribe [:remote-test-data])
         cnfg (subscribe [:chart-cnfg])]
     (fn []
       [:div
@@ -36,7 +34,7 @@
        [:div.em33
         [:p.bgw-basker util/lorem-s]]
        [:div.em33
-        [:button.btn.btn-outline.black {:on-click #(dispatch [:assets/get "test-l"])} "Load Test Asset"]]
-       [:div.m1
+        [:button.btn.btn-outline.black {:on-click #(dispatch [:assets/get {:asset "test-l" :talib "cdlharami"}])} "Load Test Asset"]]
+       [:div.stock.m1
         [stock-ui cnfg]]
        ])))

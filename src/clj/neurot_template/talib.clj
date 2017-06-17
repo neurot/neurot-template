@@ -3,11 +3,11 @@
            [com.tictactec.ta.lib.meta CoreMetaData TaGrpService TaFuncService PriceHolder]
            [com.tictactec.ta.lib.meta.annotation OptInputParameterType InputFlags OptInputParameterType InputParameterType OutputParameterType]
            [com.tictactec.ta.lib MInteger]
-           [java.lang Exception])
+           [java.lang Exception]
+           [java.lang String])
   ;; (:use [talib.clj-ta-lib yahoo]
   ;;       [talib.clj-ta-lib util])
-  )
-
+)
 
 ;; Price Holder
 
@@ -22,26 +22,24 @@ Dates maintain default string format while other values are converted to BigDeci
      (into []  (nth column-data 3)) ;Low
      (into []  (nth column-data 4)) ;Close
      (into []  (nth column-data 4)) ;Volume
-     ]))
+]))
 
 (defn price-holder
-    ([asset]
-     (let [data (talib-vector (reverse asset))]
-      (PriceHolder. (double-array (nth data 1));open
-                    (double-array (nth data 2));high
-                    (double-array (nth data 3));low
-                    (double-array (nth data 4));close
-                    (double-array (nth data 5));volume
-                    (double-array (count (nth data 1));open interest
-                                 )))))
+  ([asset]
+   (let [data (talib-vector (reverse asset))]
+     (PriceHolder. (double-array (nth data 1));open
+                   (double-array (nth data 2));high
+                   (double-array (nth data 3));low
+                   (double-array (nth data 4));close
+                   (double-array (nth data 5));volume
+                   (double-array (count (nth data 1));open interest
+)))))
 
 (defn open [price-holder] (:o (bean price-holder)))
 (defn high [price-holder] (:h (bean price-holder)))
 (defn low [price-holder] (:l (bean price-holder)))
 (defn close [price-holder] (:c (bean price-holder)))
 (defn volume [price-holder] (:v (bean price-holder)))
-
-
 
 ;; ** Util **
 
@@ -112,7 +110,6 @@ Dates maintain default string format while other values are converted to BigDeci
 (defn print-functions []
   (CoreMetaData/forEachFunc function-service))
 
-
 ;; ** Core **
 
 (defn- getFunc [func]
@@ -153,10 +150,46 @@ Dates maintain default string format while other values are converted to BigDeci
 
     @output))
 
+(defn ta-info [name]
+  (let [function (getFunc name)]
+    (let [function-info (.getFuncInfo function)]
+      {:name            (.name function-info)
+       :inputs          (let [out (atom [])]
+                          (doseq [i (range (.nbInput function-info))]
+                            (swap! out conj (.paramName (.getInputParameterInfo function i))))
+                          @out)
+
+       ;; use always default for optional inputs
+       :opt-inputs (let [out (atom [])]
+                     (doseq [i (range (.nbOptInput function-info))]
+                       (let [pinfo (.getOptInputParameterInfo function i)]
+                         (cond
+                           (= (-> pinfo .type) OptInputParameterType/TA_OptInput_RealRange)
+                           (let [rrange (.getOptInputRealRange function i)]
+                             (swap! out conj (.defaultValue rrange)))
+
+                           (= (-> pinfo .type) OptInputParameterType/TA_OptInput_RealList)
+                           (let [rlist (.getOptInputRealList function i)]
+                             (swap! out conj (.defaultValue rlist)))
+
+                           (= (-> pinfo .type) OptInputParameterType/TA_OptInput_IntegerRange)
+                           (let [irange (.getOptInputIntegerRange function i)]
+                             (swap! out conj (.defaultValue irange)))
+
+                           (= (-> pinfo .type) OptInputParameterType/TA_OptInput_IntegerList)
+                           (let [ilist (.getOptInputIntegerList function i)]
+                             (swap! out conj (.defaultValue ilist))))))
+                     @out)
+
+       :outputs (let [out (atom [])]
+                  (doseq [i (range (.nbOutput function-info))]
+                    (swap! out conj (.paramName (.getOutputParameterInfo function i))))
+                  @out)})))
+
 (defn ta
   ([name]
    (print-function (getFunc name)))
-  ([name input & options]
+  ([name input options]
    (let [func          (getFunc name)
          funcInfo      (.getFuncInfo func)
          nbOptInputs   (-> funcInfo .nbOptInput)
@@ -235,3 +268,10 @@ Dates maintain default string format while other values are converted to BigDeci
         :name       (.name (.getFuncInfo func))
         :options    options
         :columns    @outputCols}))))
+
+(defn tx [name asset-data]
+  (let [func-info (ta-info name)]
+    (cond (.contains (nth (:inputs func-info) 0) "Price")
+          (ta name [(price-holder asset-data)] (:opt-inputs func-info))
+          :else
+          (ta name [(close (price-holder asset-data))] (:opt-inputs func-info)))))

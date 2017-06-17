@@ -6,7 +6,7 @@
             [taoensso.carmine :as car :refer [wcar]]
             [clojure.java.io :as io]
             [clojure.string :as str]
-            [neurot-template.talib :refer [ta price-holder open high low close volume]]))
+            [neurot-template.talib :refer [tx ta ta-info price-holder open high low close volume]]))
 
 ; Redis
 
@@ -29,14 +29,17 @@
             (split dta #"\n"))))
 
 
-(defn get-talib [asset-data]
-  (let [talib-data (reverse (seq (first (ta "wma" [(close (price-holder asset-data))] 30))))]
+(defn get-talib [asset-data ta-func]
+  (let [talib-data (reverse (seq (first (tx ta-func asset-data))))]
     (mapv #(vector (first %1) %2) asset-data talib-data)))
 
 
-(defn get-asset [asset]
+(defn get-asset [asset ta-function]
   (let [asset-data (wcar* (car/get asset))]
-    [asset-data (get-talib asset-data)]
+    {:asset {:name asset
+             :data asset-data}
+     :talib {:info (ta-info ta-function)
+             :data (get-talib asset-data ta-function)}}
     ))
 
 (defn filename-to-key [filename]
