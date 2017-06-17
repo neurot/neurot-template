@@ -1,5 +1,5 @@
 (ns neurot-template.events
-    (:require [re-frame.core :refer [reg-event-db dispatch after]]
+    (:require [re-frame.core :refer [subscribe reg-event-db dispatch after]]
               [neurot-template.db :refer [default-db]]
               [pneumatic-tubes.core :as tubes]
               [klang.core :refer-macros [info! warn! erro! crit! fata! trac!]]))
@@ -22,6 +22,16 @@
  (fn [_ _]
    (info! "loading default db")
    default-db))
+
+(reg-event-db
+ :asset-change
+ (fn [db [_ new-asset]]
+   (assoc db :asset new-asset)))
+
+(reg-event-db
+ :talib-change
+ (fn [db [_ new-talib]]
+   (assoc db :talib new-talib)))
 
 (reg-event-db
  :bye

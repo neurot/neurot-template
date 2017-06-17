@@ -8,6 +8,16 @@
    (:name db)))
 
 (reg-sub
+ :asset
+ (fn [db]
+   (:asset db)))
+
+(reg-sub
+ :talib
+ (fn [db]
+   (:talib db)))
+
+(reg-sub
  :connected?
  (fn [db]
    (:connected? db)))

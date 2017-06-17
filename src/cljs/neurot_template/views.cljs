@@ -22,7 +22,9 @@
 (defn main-panel []
   (let [name      (subscribe [:name])
         connected?    (subscribe [:connected?])
-        cnfg (subscribe [:chart-cnfg])]
+        cnfg (subscribe [:chart-cnfg])
+        asset (subscribe [:asset])
+        talib (subscribe [:talib])]
     (fn []
       [:div
        ;; [:div.menu "menu"]
@@ -32,9 +34,18 @@
        [:div.em33
         [:h1 @name]]
        [:div.em33
-        [:p.bgw-basker util/lorem-s]]
+        [:p.bgw-basker util/lorem-tweet]]
        [:div.em33
-        [:button.btn.btn-outline.black {:on-click #(dispatch [:assets/get {:asset "test-l" :talib "cdlharami"}])} "Load Test Asset"]]
+
+        [:input.input {:type "text"
+                       :value @(subscribe [:asset])
+                       :on-change #(dispatch [:asset-change (-> % .-target .-value)])}]
+
+        [:input.input {:type "text"
+                       :value @(subscribe [:talib])
+                       :on-change #(dispatch [:talib-change (-> % .-target .-value)])}]
+
+        [:button.btn.btn-outline.black {:on-click #(dispatch [:assets/get {:asset @asset :talib @talib}])} "Load Asset"]]
        [:div.stock.m1
         [stock-ui cnfg]]
        ])))
