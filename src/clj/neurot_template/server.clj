@@ -9,7 +9,15 @@
         [ring.middleware.reload :refer [wrap-reload]]
         [pneumatic-tubes.core :only [receiver transmitter dispatch]]
         [pneumatic-tubes.httpkit :only [websocket-handler]]
+        [taoensso.carmine :as car :refer [wcar]]
         [environ.core :refer [env]]))
+
+
+;; Redis
+(def server1-conn {:pool {} :spec {:host "127.0.0.1" :port 6379}})
+(defmacro wcar* [& body] `(car/wcar server1-conn ~@body))
+
+(def redis-connection (wcar* (car/ping)))
 
 (def tx (transmitter))
 (def dispatch-to (partial dispatch tx))

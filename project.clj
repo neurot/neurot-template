@@ -80,4 +80,5 @@
 
   :uberjar-name "neurot-template.jar"
 
-  :prep-tasks [["cljsbuild" "once" "min"] "javac" "compile"])
+  :prep-tasks [["cljsbuild" "once" "min"] "ancient" ;; "kibit"
+               "javac" "compile"])

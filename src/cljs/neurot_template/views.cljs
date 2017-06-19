@@ -38,10 +38,12 @@
        [:div.em33
 
         [:input.input {:type "text"
+                       :placeholder "Asset"
                        :value @(subscribe [:asset])
                        :on-change #(dispatch [:asset-change (-> % .-target .-value)])}]
 
         [:input.input {:type "text"
+                       :placeholder "Technical Analyzer"
                        :value @(subscribe [:talib])
                        :on-change #(dispatch [:talib-change (-> % .-target .-value)])}]
 

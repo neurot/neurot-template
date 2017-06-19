@@ -44,6 +44,12 @@
    (assoc db :connected? true)))
 
 (reg-event-db
+ :error
+ (fn [db [_ error]]
+   (erro! error)
+   (assoc db :error error)))
+
+(reg-event-db
  :assets/set
  (fn [db [_ data]]
    ;; (assoc-in db [:asset] data)
