@@ -4,6 +4,8 @@
                  [reagent "0.6.2"]
                  [re-frame "0.9.4"]
                  [re-frisk "0.4.5"]
+                 [day8.re-frame/abra "0.0.9"]
+                 [reframe-utils "0.1.4"]
                  [yogthos/config "0.8"]
                  [compojure "1.6.0"]
                  [ring "1.6.1"]
@@ -54,7 +56,9 @@
                     :output-dir           "resources/public/js/compiled/out"
                     :asset-path           "js/compiled/out"
                     :source-map-timestamp true
-                    :preloads             [devtools.preload]
+                    :closure-defines      {"re_frame.trace.trace_enabled_QMARK_" true}
+                    :preloads             [day8.re-frame.trace.preload]
+                    ;; :preloads             [devtools.preload]
                     :external-config      {:devtools/config {:features-to-install :all}}}}
 
     {:id           "min"
