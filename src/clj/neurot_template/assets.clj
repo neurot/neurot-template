@@ -33,9 +33,11 @@
   (let [talib-data (reverse (seq (first (tx ta-func asset-data))))]
     (mapv #(vector (first %1) %2) asset-data talib-data)))
 
+(defn resample-data [asset]
+  (str/split asset #"/"))
 
 (defn get-asset [asset ta-function]
-  (let [asset-data (wcar* (car/get asset))]
+  (let [asset-data (resample-data (wcar* (car/get asset)))]
     {:asset {:name asset
              :data asset-data}
      :talib {:info (ta-info ta-function)
