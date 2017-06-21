@@ -103,3 +103,7 @@ a {
     hyphens: auto;
     /* silbentrennung - land="de" ist relevant! */
 }
+
+.chart {
+    height: 800px;
+}

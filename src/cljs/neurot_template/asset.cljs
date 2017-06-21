@@ -44,13 +44,13 @@
     :component-did-update (render-stock-fn data)
     :reagent-render (fn [data]
                       @data
-                      [:div])}))
+                      [:div.chart])}))
 
 (defn ui []
   (let [data (subscribe [:chart-data])
         asset (subscribe [:asset])
         talib (subscribe [:talib])]
-    [:div.border
+    [:div
      [:div.em33
       [:input.input {:type        "text"
                      :placeholder "Asset"
