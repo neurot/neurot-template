@@ -7,7 +7,7 @@
   {:rangeSelector {:selected 1}
    ;; :chart         {:type     "candlestick"
    ;;                 :zoomType "x"}
-   :title         {:text "Asset Demo"}
+   :title         {:text (-> data :asset :name)}
    :yAxis         [{:labels    {:align "right"
                                 :x     -3}
                     :title     {:text "OHLC"}
@@ -15,7 +15,7 @@
                     :lineWidth 2}
                    {:labels    {:align "right"
                                 :x     -3}
-                    :title     {:text "XXX"}
+                    :title     {:text (-> data :talib :info :name)}
                     :top       "65%"
                     :height    "35%"
                     :offset    0
@@ -24,12 +24,14 @@
 
    :series [{:name "Asset"
              :type "candlestick"
+             :color "red"
+             :upColor "#00F72C"
              :data (-> data :asset :data)
              ;; :tooltip {:valueDecimals 4}
 }
             {:name  "TA"
              :type  "column"
-             :color "red"
+             :color "black"
              :data  (-> data :talib :data)
              :yAxis 1
              :tooltip {:valueDecimals 2}}]})
@@ -51,18 +53,23 @@
         asset (subscribe [:asset])
         talib (subscribe [:talib])]
     [:div
-     [:div.em33
-      [:input.input {:type        "text"
-                     :placeholder "Asset"
-                     :value       @(subscribe [:asset])
-                     :on-change   #(dispatch [:asset-change (-> % .-target .-value)])}]
-      [:input.input {:type        "text"
-                     :placeholder "Technical Analyzer"
-                     :value       @(subscribe [:talib])
-                     :on-change   #(dispatch [:talib-change (-> % .-target .-value)])}]
-      [:button.btn.btn-outline.black
-       {:on-click #(dispatch [:assets/get {:asset @asset :talib @talib}])}
-       "Load Asset"]]
+     [:div.em33.mb3
+      [:div.flex
+       [:input.input {:style {:width "200px"
+                              :margin-bottom "0px"}
+                      :type        "text"
+                      :placeholder "Asset"
+                      :value       @(subscribe [:asset])
+                      :on-change   #(dispatch [:asset-change (-> % .-target .-value)])}]
+       [:input.input.ml1 {:style {:width "200px"
+                              :margin-bottom "0px"}
+                      :type        "text"
+                      :placeholder "Technical Analyzer"
+                      :value       @(subscribe [:talib])
+                      :on-change   #(dispatch [:talib-change (-> % .-target .-value)])}]
+       [:button.btn.btn-outline.black.ml2
+        {:on-click #(dispatch [:assets/get {:asset @asset :talib @talib}])}
+        "Load"]]]
      (if @data
        [:div.stock.m1
         [chart data]])]))
