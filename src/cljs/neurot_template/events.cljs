@@ -52,13 +52,7 @@
 (reg-event-db
  :assets/set
  (fn [db [_ data]]
-   (reduce-kv assoc-in db {[:chart-cnfg :title :text] (-> data :asset :name)
-                           [:chart-cnfg :series 0 :data] (-> data :asset :data)
-                           [:chart-cnfg :yAxis 1 :title :text] (-> data :talib :info :name)
-                           [:chart-cnfg :series 1 :data] (-> data :talib :data)})))
-
-
-
+   (reduce-kv assoc-in db {[:chart-data] data})))
 
 (reg-event-db
  :test/remote-data

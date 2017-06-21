@@ -3,23 +3,54 @@
             [reagent.core :as reagent]
             [cljsjs.highstock]))
 
-(defn render-stock-fn [cnfg]
-  (fn [component]
-    (.stockChart js/Highcharts (reagent/dom-node component) (clj->js @cnfg))))
+(defn chart-config [data]
+  {:rangeSelector {:selected 1}
+   ;; :chart         {:type     "candlestick"
+   ;;                 :zoomType "x"}
+   :title         {:text "Asset Demo"}
+   :yAxis         [{:labels    {:align "right"
+                                :x     -3}
+                    :title     {:text "OHLC"}
+                    :height    "60%"
+                    :lineWidth 2}
+                   {:labels    {:align "right"
+                                :x     -3}
+                    :title     {:text "XXX"}
+                    :top       "65%"
+                    :height    "35%"
+                    :offset    0
+                    :lineWidth 2}]
+   :tooltip       {:split true}
 
-(defn chart [cnfg]
+   :series [{:name "Asset"
+             :type "candlestick"
+             :data (-> data :asset :data)
+             ;; :tooltip {:valueDecimals 4}
+}
+            {:name  "TA"
+             :type  "column"
+             :color "red"
+             :data  (-> data :talib :data)
+             :yAxis 1
+             :tooltip {:valueDecimals 2}}]})
+
+(defn render-stock-fn [data]
+  (fn [component]
+    (.stockChart js/Highcharts (reagent/dom-node component) (clj->js (chart-config @data)))))
+
+(defn chart [data]
   (reagent/create-class
-   {:component-did-mount (render-stock-fn cnfg)
-    :component-did-update (render-stock-fn cnfg)
-    :reagent-render (fn [cnfg]
-                      @cnfg
+   {:component-did-mount (render-stock-fn data)
+    :component-did-update (render-stock-fn data)
+    :reagent-render (fn [data]
+                      @data
                       [:div])}))
 
 (defn ui []
-  (let [cnfg  (subscribe [:chart-cnfg])
+  (let [data (subscribe [:chart-data])
         asset (subscribe [:asset])
         talib (subscribe [:talib])]
-    [:div
+    [:div.border
      [:div.em33
       [:input.input {:type        "text"
                      :placeholder "Asset"
@@ -32,5 +63,6 @@
       [:button.btn.btn-outline.black
        {:on-click #(dispatch [:assets/get {:asset @asset :talib @talib}])}
        "Load Asset"]]
-     [:div.stock.m1
-      [chart cnfg]]]))
+     (if @data
+       [:div.stock.m1
+        [chart data]])]))

@@ -7,4 +7,4 @@
                   :asset
                   :talib
                   :connected?
-                  :chart-cnfg)
+                  :chart-data)
