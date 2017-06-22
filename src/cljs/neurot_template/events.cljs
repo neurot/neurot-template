@@ -52,7 +52,8 @@
 (reg-event-db
  :assets/set
  (fn [db [_ data]]
-   (reduce-kv assoc-in db {[:chart-data] data})))
+   (reduce-kv assoc-in db {[:chart-data] data
+                           [:loading?] false})))
 
 (reg-event-db
  :test/remote-data
@@ -67,7 +68,7 @@
  send-to-server
  (fn [db [event data]]
    (info! "ws/request:" [event data])
-   db))
+   (assoc db :loading? true)))
 
 (reg-event-db
  :test/test-event

@@ -6,4 +6,5 @@
    :error      nil
    :asset      ""
    :talib      ""
+   :loading? false
    :chart-data nil})

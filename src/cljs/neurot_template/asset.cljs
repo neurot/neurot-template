@@ -1,6 +1,7 @@
 (ns neurot-template.asset
   (:require [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as reagent]
+            [clojure.string :as string]
             [cljsjs.highstock]))
 
 (defn chart-config [data]
@@ -11,25 +12,25 @@
    :yAxis         [{:labels    {:align "right"
                                 :x     -3}
                     :title     {:text "OHLC"}
-                    :height    "60%"
+                    :height    "80%"
                     :lineWidth 2}
                    {:labels    {:align "right"
                                 :x     -3}
                     :title     {:text (-> data :talib :info :name)}
-                    :top       "65%"
-                    :height    "35%"
+                    :top       "85%"
+                    :height    "15%"
                     :offset    0
                     :lineWidth 2}]
    :tooltip       {:split true}
 
-   :series [{:name "Asset"
+   :series [{:name (first (string/split (-> data :asset :name) #"/"))
              :type "candlestick"
              :color "red"
              :upColor "#00F72C"
              :data (-> data :asset :data)
              ;; :tooltip {:valueDecimals 4}
 }
-            {:name  "TA"
+            {:name  (-> data :talib :info :name)
              :type  "column"
              :color "black"
              :data  (-> data :talib :data)
@@ -51,7 +52,8 @@
 (defn ui []
   (let [data (subscribe [:chart-data])
         asset (subscribe [:asset])
-        talib (subscribe [:talib])]
+        talib (subscribe [:talib])
+        loading? (subscribe [:loading?])]
     [:div
      [:div.em33.mb3
       [:div.flex
@@ -70,6 +72,7 @@
        [:button.btn.btn-outline.black.ml2
         {:on-click #(dispatch [:assets/get {:asset @asset :talib @talib}])}
         "Load"]]]
-     (if @data
+     (if @loading? [:div.em33 "loading..."])
+     (if (and @data (not @loading?))
        [:div.stock.m1
         [chart data]])]))

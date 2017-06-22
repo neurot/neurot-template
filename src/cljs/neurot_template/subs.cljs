@@ -7,4 +7,5 @@
                   :asset
                   :talib
                   :connected?
-                  :chart-data)
+                  :chart-data
+                  :loading?)

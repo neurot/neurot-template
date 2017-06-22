@@ -37,6 +37,7 @@
   (filter #(.contains % ".csv") (.list (io/file dir))))
 
 (defn write-to-redis [key value]
+  (println (str "Processing " key))
   (wcar* (car/set key value)))
 
 (defn import-raw-csv [dir]

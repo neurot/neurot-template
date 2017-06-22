@@ -13,6 +13,8 @@
     (enable-re-frisk!)
     (println "app is running in dev-mode")))
 
+
+
 (defn mount-root []
   (re-frame/clear-subscription-cache!)
   (reagent/render [views/main-panel]
