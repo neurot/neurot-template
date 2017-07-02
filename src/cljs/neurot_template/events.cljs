@@ -7,12 +7,13 @@
 ; pneumatic tubes
 
 (defn on-receive [event-v]
-  (info! "ws/received" ;; event-v
-         )
+  (info! "ws/received" [(first event-v)])
   (dispatch event-v))
 
 (def tube (tubes/tube (str "ws://localhost:3449/ws") on-receive))
-(def send-to-server (after (fn [_ v] (tubes/dispatch tube v))))
+(def send-to-server (after (fn [_ v]
+                             (info! "ws/request" v)
+                             (tubes/dispatch tube v))))
 
 
 ; events
@@ -20,7 +21,6 @@
 (reg-event-db
  :initialize-db
  (fn [_ _]
-   (info! "loading default db")
    default-db))
 
 (reg-event-db
@@ -46,7 +46,6 @@
 (reg-event-db
  :error
  (fn [db [_ error]]
-   (erro! error)
    (assoc db :error error)))
 
 (reg-event-db
@@ -67,14 +66,12 @@
  :assets/get
  send-to-server
  (fn [db [event data]]
-   (info! "ws/request:" [event data])
    (assoc db :loading? true)))
 
 (reg-event-db
  :test/test-event
  send-to-server
  (fn [db [event data]]
-   (info! "ws/request:" [event data])
    (assoc db :local-test-data data)))
 
 

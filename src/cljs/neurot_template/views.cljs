@@ -22,4 +22,6 @@
 
        [asset/ui]
 
-       [:div.status (if @connected? [:p.status (gstring/unescapeEntities "&#9901;")]  [:p.status.red (gstring/unescapeEntities "&#9902;")])]])))
+       [:div.status (if @connected?
+                      [:p.status (gstring/unescapeEntities "&#9901;")]
+                      [:p.status.red (gstring/unescapeEntities "&#9902;")])]])))

@@ -1,7 +1,7 @@
 (defproject neurot-template "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.562"]
-                 [reagent "0.6.2"]
+                 [org.clojure/clojurescript "1.9.671"]
+                 [reagent "0.7.0"]
                  [re-frame "0.9.4"]
                  [re-frisk "0.4.5"]
                  [day8.re-frame/abra "0.0.9"]
@@ -40,7 +40,7 @@
   :profiles
   {:dev
    {:dependencies [[binaryage/devtools "0.9.4"]
-                   [figwheel-sidecar "0.5.10"]
+                   [figwheel-sidecar "0.5.11"]
                    [com.cemerick/piggieback "0.2.2"]]
 
     :plugins [[lein-figwheel "0.5.10"]
@@ -84,5 +84,5 @@
 
   :uberjar-name "neurot-template.jar"
 
-  :prep-tasks [["cljsbuild" "once" "min"] "ancient" ;; "kibit"
+  :prep-tasks [["cljsbuild" "once" "min"] ;;"ancient" ;; "kibit"
                "javac" "compile"])

@@ -61,18 +61,18 @@
                               :margin-bottom "0px"}
                       :type        "text"
                       :placeholder "Asset"
-                      :value       @(subscribe [:asset])
+                      :value       @asset
                       :on-change   #(dispatch [:asset-change (-> % .-target .-value)])}]
        [:input.input.ml1 {:style {:width "200px"
                               :margin-bottom "0px"}
                       :type        "text"
                       :placeholder "Technical Analyzer"
-                      :value       @(subscribe [:talib])
+                      :value       @talib
                       :on-change   #(dispatch [:talib-change (-> % .-target .-value)])}]
        [:button.btn.btn-outline.black.ml2
         {:on-click #(dispatch [:assets/get {:asset @asset :talib @talib}])}
         "Load"]]]
-     (if @loading? [:div.em33 "loading..."])
+     (if @loading? [:div.loading "loading..."])
      (if (and @data (not @loading?))
        [:div.stock.m1
         [chart data]])]))
